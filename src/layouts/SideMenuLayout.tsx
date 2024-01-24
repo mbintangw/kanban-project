@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom";
 
 const SideMenuLayout = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <SideMenu />
+    <div  style={{display: 'flex'}}>
+      <SideMenu/>
       <Outlet />
     </div>
   )
