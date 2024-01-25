@@ -1,7 +1,6 @@
 import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_STATUS, TASK_PROGRESS_ID } from '../../../../constants/app'
-import { useRecoilState } from 'recoil'
-import { tasksState } from '../../TaskAtoms'
+import { useTasksAction } from '../hooks/Tasks'
 
 interface TaskListItemProps {
   task: Task
@@ -36,15 +35,8 @@ const getProgressCategory = (progressOrder : number): string => {
 }
 
 const TaskListItem = ({task}: TaskListItemProps) : JSX.Element => {
-  const [tasks, setTasks] = useRecoilState<Task[]>(tasksState)
 
-  const completeTask = (taskID: number): void => {
-    const updatedTasks: Task[] = tasks.map((task) => 
-      task.id === taskID
-        ? {...task, progressOrder: TASK_PROGRESS_ID.COMPLETED}:task,
-      )
-      setTasks(updatedTasks)
-  } 
+  const {completeTask} = useTasksAction()
 
   return(
     <tbody style={styles.tableBody}>
