@@ -1,4 +1,5 @@
 import type { Task, CSSProperties } from '../../../../types'
+import { TASK_PROGRESS_STATUS, TASK_PROGRESS_ID } from '../../../../constants/app'
 
 interface TaskListItemProps {
   task: Task
@@ -6,16 +7,16 @@ interface TaskListItemProps {
 
 const getProgressCategory = (progressOrder : number): string => {
   switch(progressOrder){
-    case 1:
-      return 'Not Started'
-    case 2:
-      return 'In Progress'
-    case 3:
-      return 'Waiting/In Review'
-    case 4:
-      return 'Completed'
+    case TASK_PROGRESS_ID.NOT_STARTED:
+      return TASK_PROGRESS_STATUS.NOT_STARTED
+    case TASK_PROGRESS_ID.IN_PROGRESS:
+      return TASK_PROGRESS_STATUS.IN_PROGRESS
+    case TASK_PROGRESS_ID.WAITING:
+      return TASK_PROGRESS_STATUS.WAITING
+    case TASK_PROGRESS_ID.COMPLETED:
+      return TASK_PROGRESS_STATUS.COMPLETED
     default:
-      return 'Not Started'
+      return TASK_PROGRESS_STATUS.NOT_STARTED
   }
 }
 
