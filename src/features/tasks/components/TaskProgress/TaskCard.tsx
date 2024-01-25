@@ -3,6 +3,7 @@ import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_ID } from '../../../../constants/app'
 import { useRecoilState } from 'recoil'
 import { tasksState } from '../../TaskAtoms'
+import { useTasksAction } from '../hooks/Tasks'
 
 interface TaskCardProps {
   task: Task
@@ -40,7 +41,8 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
       )
       setTasks(updatedTasks)
   }
-
+  const {moveTaskCard} = useTasksAction()
+  
   return (
     <div style={styles.taskCard}>
       <div style={styles.taskIcons}>
@@ -61,10 +63,10 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
       </div>
       <div style={getArrowPositionStyle(task.progressOrder)}>
         {task.progressOrder !== TASK_PROGRESS_ID.NOT_STARTED && (
-          <button className="material-icons">chevron_left</button>
+          <button className="material-icons" onClick={():void  => {moveTaskCard(task.id, -1)}} >chevron_left</button>
         )}
         {task.progressOrder !== TASK_PROGRESS_ID.COMPLETED && (
-          <button className="material-icons">chevron_right</button>
+          <button className="material-icons" onClick={() => moveTaskCard(task.id, 1)}>chevron_right</button>
         )}
       </div>
     </div>
