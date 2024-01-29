@@ -26,6 +26,7 @@ const TaskColumn = ({ columnTitle, tasks, defaultProgress }: TaskColumnProps) =>
           type = {TASK_MODAL_TYPE.ADD}
           setIsModalOpen = {setIsModalOpen}
           defaultProgressOrder = {defaultProgress}
+          selectedData={{} as Task}
         />
       )}
       </div>
