@@ -40,15 +40,16 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
           className="material-icons" 
           style={getIconStyle(task.progressOrder)}
           onClick={(): void => completeTask(task.id)}>check_circle</div>
-        <div 
-          className="material-icons" 
-          style={styles.menuIcon}
-          onClick={():void => {
-            setIsMenuOpen(true)
-          }}
-          >
-          more_vert
-        </div>
+      
+      <button className='dropdown'>
+        <span 
+          className='material-icons' 
+          style={styles.menuIcon}>more_vert</span>
+          <TaskMenu 
+            setIsMenuOpen = {setIsMenuOpen}
+            task={task}
+        />
+      </button>
       </div>
       <p style={styles.taskTitle}>{task.title}</p>
       <div>
