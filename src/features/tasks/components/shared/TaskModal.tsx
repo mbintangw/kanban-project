@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react"
-import type { CSSProperties} from "../../../../types"
+import type { CSSProperties, Task} from "../../../../types"
 import TaskForm from "./TaskForm"
 
 interface TaskModalProps {
@@ -7,16 +7,17 @@ interface TaskModalProps {
   type: string,
   setIsModalOpen: Dispatch<SetStateAction<boolean>>,
   defaultProgressOrder : number,
+  selectedData : Task
 }
 
-const TaskModal = ({headingTitle, setIsModalOpen, defaultProgressOrder, type}: TaskModalProps) => {
+const TaskModal = ({headingTitle, type, setIsModalOpen, defaultProgressOrder,  selectedData}: TaskModalProps) => {
   return (
     <main style={styles.container}>
       <div style={styles.modalTop}>
         <h1>{headingTitle}</h1>
         <span className="material-icons" style={styles.icon} onClick={(): void => {setIsModalOpen(false)}}>close</span>
       </div>
-      <TaskForm type={type} defaultProgressOrder={defaultProgressOrder} setIsModalOpen={setIsModalOpen}/>
+      <TaskForm type={type} defaultProgressOrder={defaultProgressOrder} setIsModalOpen={setIsModalOpen} selectedData={selectedData}/>
     </main>
   )
 }

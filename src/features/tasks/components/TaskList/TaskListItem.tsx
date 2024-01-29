@@ -1,6 +1,8 @@
 import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_STATUS, TASK_PROGRESS_ID } from '../../../../constants/app'
 import { useTasksAction } from '../hooks/Tasks'
+import { useState } from 'react'
+import TaskMenu from '../shared/TaskMenu'
 
 interface TaskListItemProps {
   task: Task
@@ -8,7 +10,6 @@ interface TaskListItemProps {
 
 const getIconStyle = (progressOrder: number): React.CSSProperties => {
   const color: '#55C89F' | '#C5C5C5' = progressOrder === TASK_PROGRESS_ID.COMPLETED ? '#55C89F' : '#C5C5C5' 
-
   const cursor : 'default' | 'pointer' = progressOrder === TASK_PROGRESS_ID.COMPLETED ? 'default' : 'pointer'
 
   return {
@@ -37,9 +38,10 @@ const getProgressCategory = (progressOrder : number): string => {
 const TaskListItem = ({task}: TaskListItemProps) : JSX.Element => {
 
   const {completeTask} = useTasksAction()
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
   return(
-    <tbody style={styles.tableBody}>
+    <div style={styles.tableBody}>
       <div style={styles.tableBodyTaskTitle}>
         <span 
           className='material-icons' 
@@ -55,9 +57,20 @@ const TaskListItem = ({task}: TaskListItemProps) : JSX.Element => {
       <div style={styles.tableBodyDueDate}>{task.dueDate}</div>
       <div style={styles.tableBodyProgress}>{getProgressCategory(task.progressOrder)}</div>
       <div>
-        <span className='material-icons' style={styles.menuIcon}>more_horiz</span>
+        <span 
+          className='material-icons' 
+          style={styles.menuIcon}
+          onClick={():void => {
+            setIsMenuOpen(true)
+          }}
+          >more_horiz</span>
       </div>
-    </tbody>
+      {isMenuOpen && 
+      <TaskMenu 
+        setIsMenuOpen = {setIsMenuOpen}
+        task={task}
+      />}
+    </div>
   )
 }
 

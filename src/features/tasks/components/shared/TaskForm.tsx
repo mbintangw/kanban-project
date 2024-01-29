@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import { TASK_PROGRESS_STATUS, TASK_PROGRESS_ID, TASK_MODAL_TYPE } from '../../../../constants/app'
-import type { CSSProperties } from '../../../../types'
+import type { CSSProperties, Task } from '../../../../types'
 import { useTasksAction } from '../hooks/Tasks'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -8,20 +8,32 @@ interface TaskFormProps {
   defaultProgressOrder: number
   type: string
   setIsModalOpen: Dispatch<SetStateAction<boolean>>
+  selectedData : Task
 }
 
-const TaskForm = ({type,defaultProgressOrder, setIsModalOpen}: TaskFormProps) => {
-  const [title, setTitle] = useState<string>('')
-  const [detail, setDetail] = useState<string>('')
-  const [dueDate, setDueDate] = useState<string>('')
-  const [progressOrder, setProgressOrder] = useState <number>(
-    defaultProgressOrder,
-  )
-  const {addTask} = useTasksAction()
+const TaskForm = ({type,defaultProgressOrder, setIsModalOpen, selectedData}: TaskFormProps) => {
+  const isEditMode = type === TASK_MODAL_TYPE.EDIT
+  
+  const [title, setTitle] = useState<string>(isEditMode?selectedData.title:'')
+  const [detail, setDetail] = useState<string>(isEditMode?selectedData.detail:'')
+  const [dueDate, setDueDate] = useState<string>(isEditMode?selectedData.dueDate:'')
+  const [progressOrder, setProgressOrder] = useState <number>(defaultProgressOrder)
+  
+  const {addTask, editTask} = useTasksAction()
   
   const handleSubmit = (): void => {
     if (type === TASK_MODAL_TYPE.ADD){
       addTask(title, detail, dueDate, progressOrder)
+      setIsModalOpen(false)
+    }
+    else {
+      editTask({
+        id: selectedData.id,
+        title,
+        detail,
+        dueDate,
+        progressOrder,
+      })
       setIsModalOpen(false)
     }
   }
@@ -96,6 +108,7 @@ const styles: CSSProperties = {
     padding: '12px 24px',
     border: 'none',
     borderRadius: '4px',
+    cursor: 'pointer'
   },
 }
 

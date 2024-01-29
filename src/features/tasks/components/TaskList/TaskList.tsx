@@ -19,17 +19,8 @@ const TaskList = () => {
         <button style={styles.button} onClick={(): void => {setIsModalOpen(true)}}><span className="material-icons">add</span>Add Task</button>
         <button style={styles.button}><span className="material-icons">sort</span>Filter tasks</button>
       </div>
-      {isModalOpen && (
-        <TaskModal 
-          headingTitle = "Add your task"
-          type = {TASK_MODAL_TYPE.ADD}
-          setIsModalOpen = {setIsModalOpen}
-          defaultProgressOrder = {TASK_PROGRESS_ID.NOT_STARTED}
-        />
-      )}
-
-      <table style={styles.table}>
-        <thead style={styles.tableHead}>
+      <div style={styles.table}>
+        <div style={styles.tableHead}>
           <section style={styles.tableHeaderTaskName}>
             Task Name
           </section>
@@ -42,11 +33,20 @@ const TaskList = () => {
           <section style = {styles.tableHeaderProgress}>
             Progress
             </section>
-        </thead>
+        </div>
         {tasks.map((task: Task) => {
           return <TaskListItem task={task} key = {task.id}/>
         })}
-      </table>
+      </div>
+      {isModalOpen && (
+        <TaskModal 
+          headingTitle = "Add your task"
+          type = {TASK_MODAL_TYPE.ADD}
+          setIsModalOpen = {setIsModalOpen}
+          defaultProgressOrder = {TASK_PROGRESS_ID.NOT_STARTED}
+          selectedData={{} as Task}
+        />
+      )}
     </main>
   )
 }

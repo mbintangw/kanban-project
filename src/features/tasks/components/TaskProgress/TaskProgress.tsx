@@ -21,7 +21,7 @@ const TaskProgress = (): JSX.Element => {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>Task Progress</h1>
+      <h1 style={styles.heading}>Task Progresso</h1>
       <div style={styles.taskCategories}>
         <TaskColumn
           columnTitle={TASK_PROGRESS_STATUS.NOT_STARTED}

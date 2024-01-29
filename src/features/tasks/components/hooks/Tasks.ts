@@ -12,6 +12,9 @@ interface useTaskActionType {
     dueDate: string,
     progressOrder: number,
   ) => void
+
+  editTask: (body: Task) => void
+  deleteTask: (taskID: number) => void
 }
 
 export const useTasksAction = (): useTaskActionType => {
@@ -26,20 +29,10 @@ export const useTasksAction = (): useTaskActionType => {
   }
 
   const  moveTaskCard = (taskID : number, directionNumber : 1 | -1): void => {
-    const taskIndex = tasks.findIndex((task) => task.id === taskID);
-
-    if (taskIndex !== -1) {
-      const newProgressOrder =
-        tasks[taskIndex].progressOrder + directionNumber * 1; // Assuming each step is 1
-
-      // Ensure the new progress order is within valid bounds
-      if (newProgressOrder >= TASK_PROGRESS_ID.NOT_STARTED && newProgressOrder <= TASK_PROGRESS_ID.COMPLETED) {
-        const updatedTasks: Task[] = tasks.map((task) =>
-          task.id === taskID ? { ...task, progressOrder: newProgressOrder } : task
-        );
-        setTasks(updatedTasks);
-      }
-    }
+    const moveTask: Task[] = tasks.map((task) =>
+      task.id === taskID ? { ...task, progressOrder: task.progressOrder + directionNumber } : task
+    )
+    setTasks(moveTask)
   }
 
   const addTask = (
@@ -58,10 +51,23 @@ export const useTasksAction = (): useTaskActionType => {
     setTasks([...tasks, newTask])
   }
   
+  const editTask = (body: Task): void => {
+    const updatedTasks: Task[] = tasks.map((task) => (task.id === body.id ? { ...body } : task))
+    setTasks(updatedTasks)
+  }
+
+  const deleteTask = (taskID: number): void => {
+    const updatedTasks : Task[] =  tasks.filter((task) => task.id !== taskID)
+    setTasks(updatedTasks)
+  }
+
+
   return {
     completeTask,
     moveTaskCard,
     addTask,
+    editTask,
+    deleteTask,
   }
 
 };

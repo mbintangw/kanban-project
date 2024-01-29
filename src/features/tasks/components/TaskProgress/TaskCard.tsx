@@ -1,9 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_ID } from '../../../../constants/app'
-import { useRecoilState } from 'recoil'
-import { tasksState } from '../../TaskAtoms'
 import { useTasksAction } from '../hooks/Tasks'
+import TaskMenu from '../shared/TaskMenu'
 
 interface TaskCardProps {
   task: Task
@@ -31,16 +30,8 @@ const getArrowPositionStyle = (progressOrder: number): React.CSSProperties => {
 }
 
 const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
-  const [tasks, setTasks] = useRecoilState<Task[]>(tasksState)
-
-  const completeTask = (taskID: number): void => {
-    const updatedTasks: Task[] = tasks.map((task) => 
-      task.id === taskID
-        ? {...task, progressOrder: TASK_PROGRESS_ID.COMPLETED}:task,
-      )
-      setTasks(updatedTasks)
-  }
-  const {moveTaskCard} = useTasksAction()
+  const {completeTask, moveTaskCard} = useTasksAction()
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   
   return (
     <div style={styles.taskCard}>
@@ -49,7 +40,13 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
           className="material-icons" 
           style={getIconStyle(task.progressOrder)}
           onClick={(): void => completeTask(task.id)}>check_circle</div>
-        <div className="material-icons" style={styles.menuIcon}>
+        <div 
+          className="material-icons" 
+          style={styles.menuIcon}
+          onClick={():void => {
+            setIsMenuOpen(true)
+          }}
+          >
           more_vert
         </div>
       </div>
@@ -68,6 +65,7 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
           <button className="material-icons" onClick={() => moveTaskCard(task.id, 1)}>chevron_right</button>
         )}
       </div>
+      {isMenuOpen && <TaskMenu setIsMenuOpen={setIsMenuOpen} task={task}/>}
     </div>
   )
 }
