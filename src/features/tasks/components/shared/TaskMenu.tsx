@@ -9,7 +9,7 @@ interface TaskMenuProps {
   setIsMenuOpen : Dispatch<SetStateAction<boolean>>
   task : Task
 }
-const TaskMenu = ({setIsMenuOpen, task}: TaskMenuProps) => {
+const TaskMenu = ({task}: TaskMenuProps) => {
   
   const [type, setType] = useState<string>(TASK_MODAL_TYPE.ADD)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)

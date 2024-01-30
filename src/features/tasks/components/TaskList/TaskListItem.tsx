@@ -66,6 +66,7 @@ const TaskListItem = ({task}: TaskListItemProps) : JSX.Element => {
             task={task}
           />
       </button>
+      {isMenuOpen && <TaskMenu setIsMenuOpen = {setIsMenuOpen} task={task}/>}
     </div>
   )
 }
