@@ -23,6 +23,7 @@ const TaskList = () => {
           style={styles.button} 
           onClick={(): void => {
             setIsModalOpen(true)}}
+            data-testid = "add-task-button"
             >
               <span className="material-icons">add</span>
               Add Task
