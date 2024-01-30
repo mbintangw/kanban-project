@@ -5,3 +5,20 @@
 body {
   margin: 0;
 }
+
+
+.dropdown__menu{
+  visibility: hidden;
+  width: 70px;
+}
+
+.dropdown{
+  position: relative;
+  border-style: none;
+  background-color: transparent;
+  &:focus-within{
+    .dropdown__menu{
+      visibility: visible;
+    }
+  }
+}

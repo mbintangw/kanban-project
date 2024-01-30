@@ -56,20 +56,16 @@ const TaskListItem = ({task}: TaskListItemProps) : JSX.Element => {
       <div style={styles.tableBodyDetail}>{task.detail}</div>
       <div style={styles.tableBodyDueDate}>{task.dueDate}</div>
       <div style={styles.tableBodyProgress}>{getProgressCategory(task.progressOrder)}</div>
-      <div>
+
+      <button className='dropdown'>
         <span 
           className='material-icons' 
-          style={styles.menuIcon}
-          onClick={():void => {
-            setIsMenuOpen(true)
-          }}
-          >more_horiz</span>
-      </div>
-      {isMenuOpen && 
-      <TaskMenu 
-        setIsMenuOpen = {setIsMenuOpen}
-        task={task}
-      />}
+          style={styles.menuIcon}>more_horiz</span>
+          <TaskMenu 
+            setIsMenuOpen = {setIsMenuOpen}
+            task={task}
+          />
+      </button>
     </div>
   )
 }

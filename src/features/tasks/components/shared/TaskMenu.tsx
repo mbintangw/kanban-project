@@ -16,7 +16,7 @@ const TaskMenu = ({setIsMenuOpen, task}: TaskMenuProps) => {
   const {deleteTask} = useTasksAction()
   
   return (
-    <div style={styles.menu}>
+    <div style={styles.menu} className='dropdown__menu'>
       <div 
         style={styles.menuItem}
         onClick={(): void => {
@@ -33,15 +33,6 @@ const TaskMenu = ({setIsMenuOpen, task}: TaskMenuProps) => {
           }}>
         <span className="material-icons">delete</span>Delete
       </div>
-      <span
-        className="material-icons"
-        style={styles.closeIcon}
-        onClick={(): void => {
-          setIsMenuOpen(false)
-        }}
-      >
-        close
-      </span>
       {isModalOpen && (
         <TaskModal 
           headingTitle={type === TASK_MODAL_TYPE.ADD ? 'Add your task' : 'Edit your task'}

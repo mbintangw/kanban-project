@@ -5,19 +5,38 @@ import type {Task, CSSProperties} from '../../../../types'
 import { useState } from 'react'
 import TaskModal from '../shared/TaskModal'
 import { TASK_PROGRESS_ID, TASK_MODAL_TYPE } from '../../../../constants/app'
+import TaskFilter from './TaskFilter'
 
 
 const TaskList = () => {
   const tasks: Task[] = useRecoilValue(tasksState)
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
+  const [type, setFilter] = useState<Array<number>>([0])
 
   return (
     <main style={styles.container}>
       <h1 style={styles.heading}>Your Tasks</h1>
       <div style={styles.taskButtons}>
-        <button style={styles.button} onClick={(): void => {setIsModalOpen(true)}}><span className="material-icons">add</span>Add Task</button>
-        <button style={styles.button}><span className="material-icons">sort</span>Filter tasks</button>
+        <button 
+          style={styles.button} 
+          onClick={(): void => {
+            setIsModalOpen(true)}}
+            data-testid = "add-task-button"
+            >
+              <span className="material-icons">add</span>
+              Add Task
+        </button>
+        <button 
+          style={styles.button}
+          onClick={():void => {
+            setIsFilterOpen(true)
+          }}
+          >
+            <span className="material-icons">sort</span>
+            Filter tasks
+        </button>
       </div>
       <div style={styles.table}>
         <div style={styles.tableHead}>
@@ -34,7 +53,14 @@ const TaskList = () => {
             Progress
             </section>
         </div>
-        {tasks.map((task: Task) => {
+        {tasks.filter((task) => {
+          if (type.find((i) => i > 0)){
+            return type.find((i) => task.progressOrder === i)
+          }else{
+            return true
+          }
+        })
+        .map((task: Task) => {
           return <TaskListItem task={task} key = {task.id}/>
         })}
       </div>
@@ -47,6 +73,7 @@ const TaskList = () => {
           selectedData={{} as Task}
         />
       )}
+      {isFilterOpen && <TaskFilter setFilter={setFilter} setIsFilterOpen={setIsFilterOpen}/>}
     </main>
   )
 }
